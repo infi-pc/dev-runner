@@ -3,12 +3,12 @@ productName: dev-runner
 directories:
   buildResources: build
 files:
-  - '!**/.vscode/*'
-  - '!src/*'
-  - '!electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
-  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
-  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  - "!**/.vscode/*"
+  - "!src/*"
+  - "!electron.vite.config.{js,ts,mjs,cjs}"
+  - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
+  - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
+  - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
 asarUnpack:
   - resources/**
 afterSign: build/notarize.js
@@ -20,12 +20,42 @@ nsis:
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
 mac:
+  category: public.app-category.developer-tools
+  entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+    CFBundleDocumentTypes:
+      - CFBundleTypeName: Folders
+        CFBundleTypeRole: Viewer
+        LSHandlerRank: Alternate
+        LSItemContentTypes:
+          - public.folder
+          - com.apple.bundle
+          - com.apple.package
+          - com.apple.resolvable
+      - CFBundleTypeName: UnixExecutables
+        CFBundleTypeRole: Shell
+        LSHandlerRank: Alternate
+        LSItemContentTypes:
+          - public.unix-executable
+    NSAppleEventsUsageDescription: An application in DevRunner wants to use AppleScript.
+    NSCalendarsUsageDescription: An application in DevRunner wants to access Calendar data.
+    NSCameraUsageDescription: An application in DevRunner wants to use the Camera.
+    NSContactsUsageDescription: An application in DevRunner wants to access your Contacts.
+    NSDesktopFolderUsageDescription: An application in DevRunner wants to access the Desktop folder.
+    NSDocumentsFolderUsageDescription: An application in DevRunner wants to access the Documents folder.
+    NSDownloadsFolderUsageDescription: An application in DevRunner wants to access the Downloads folder.
+    NSFileProviderDomainUsageDescription: An application in DevRunner wants to access files managed by a file provider.
+    NSFileProviderPresenceUsageDescription: An application in DevRunner wants to be informed when other apps access files that it manages.
+    NSLocationUsageDescription: An application in DevRunner wants to access your location information.
+    NSMicrophoneUsageDescription: An application in DevRunner wants to use your microphone.
+    NSMotionUsageDescription: An application in DevRunner wants to use the device's accelerometer.
+    NSNetworkVolumesUsageDescription: An application in DevRunner wants to access files on a network volume.
+    NSPhotoLibraryUsageDescription: An application in DevRunner wants to access the photo library.
+    NSRemindersUsageDescription: An application in DevRunner wants to access your reminders.
+    NSRemovableVolumesUsageDescription: An application in DevRunner wants to access files on a removable volume.
+    NSSpeechRecognitionUsageDescription: An application in DevRunner wants to send user data to Apple's speech recognition servers.
+    NSSystemAdministrationUsageDescription: The operation being performed by an application in DevRunner requires elevated permission.
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
