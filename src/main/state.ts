@@ -80,12 +80,18 @@ export function runScript({
 }) {
   const folderPath = path.dirname(fullPath)
 
+  const env = {
+    ...process.env,
+    // PATH: `/usr/local/bin/:${folderPath}/node_modules/.bin:${process.env.PATH}`,
+    PATH: `/usr/local/bin/:${process.env.PATH}`,
+  }
+
   const ptyProcess = pty.spawn("npm", ["run", scriptName], {
     name: "xterm-256color",
     cols: 80,
     rows: 30,
     cwd: folderPath,
-    env: process.env,
+    env: env,
   })
 
   const pid = ptyProcess.pid
