@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: studio.nocode.devrunner
 productName: dev-runner
 directories:
   buildResources: build
@@ -20,6 +20,7 @@ nsis:
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
 mac:
+  # hardenedRuntime: true
   category: public.app-category.developer-tools
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
