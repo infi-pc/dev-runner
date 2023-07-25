@@ -5,6 +5,8 @@ import icon from "../../resources/icon.png?asset"
 import { createIPCHandler } from "electron-trpc/main"
 import { router } from "./api"
 
+const handler = createIPCHandler({ router, windows: [] })
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -21,10 +23,14 @@ function createWindow(): void {
     },
   })
 
-  createIPCHandler({ router, windows: [mainWindow] })
+  handler.attachWindow(mainWindow)
 
   mainWindow.on("ready-to-show", () => {
     mainWindow.show()
+  })
+
+  mainWindow.on("closed", () => {
+    handler.detachWindow(mainWindow)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
